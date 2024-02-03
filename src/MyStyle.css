@@ -1,0 +1,333 @@
+/* login page CSS */
+.background-img {
+    background-image: url("../public/Images/background_image3.jpg");
+    background-size: cover;
+    background-position: center;
+    height: 100vh;
+    background-repeat: no-repeat;
+}
+
+.login-outerBox {
+    height: 550px;
+    width: 480px;
+    background-color: #fff;
+    margin-top: 35px;
+    margin-left: 16px;
+    border-radius: 12px;
+}
+
+.h-w-img {
+    height: 55px;
+    width: 60px;
+    margin-top: 33px;
+    margin-left: 210px;
+}
+
+.mp-digital {
+    margin-top: 4px;
+    font-weight: bolder;
+    font-size: 27px;
+    color: #360662;
+    margin-left: 48px;
+}
+
+.mp-flake {
+    margin-top: 4px;
+    font-weight: 400;
+    font-size: 27px;
+    color: #360662;
+    margin-left: 45px;
+}
+
+.h-c-text {
+    color: #5e5e5e;
+    font-size: 20px;
+}
+
+.margin-form {
+    margin-left: 30px;
+    margin-right: 30px;
+}
+
+.link-no-underline {
+    text-decoration: none;
+    color: #5e5e5e;
+    margin-left: 27px;
+}
+
+.btn-hw {
+    width: 420px;
+    margin-top: 45px
+}
+
+/* forgetpassword CSS */
+
+.forgetpass-outerBox {
+    height: 555px;
+    width: 634px;
+    border: 1px solid rgb(72, 180, 212);
+    margin-left: 240px;
+    border-radius: 17px;
+    box-shadow: 0px 11px 10px 0px rgb(17, 17, 17);
+    padding: 10px;
+    margin-top: 33px;
+}
+
+.forgrtpass {
+    margin-top: 15px;
+    font-weight: bolder;
+    font-size: 24px;
+    color: #672ba0;
+    text-align: center;
+}
+
+.enterEmailAddress-color {
+    color: #6e6d6d;
+    font-size: 20px;
+    text-align: center;
+    margin-top: 10px;
+}
+
+.form-m-top {
+    margin-top: 20px;
+}
+
+.updatepass-btn {
+    width: 400px;
+    background-color: #733da5;
+    height: 56px;
+}
+
+.backtologin-tc {
+    color: #9f78c4;
+    margin-top: 20px;
+}
+
+/* Home page css */
+.hw-ml-img {
+    height: 45px;
+    width: 48px;
+    margin-top: 14px;
+    margin-left: 10px;
+    margin-bottom: 17px;
+}
+
+.b-color {
+    background-color: #643f86;
+}
+
+.color-digital {
+    font-weight: bolder;
+    font-size: 27px;
+    color: #fff;
+    margin-left: 8px;
+}
+
+.color-flake {
+    font-weight: 400;
+    font-size: 27px;
+    color: #fff;
+    margin-left: 3px;
+    ;
+}
+
+.FaRegUserCircle {
+    color: white;
+    font-size: 29px;
+    margin-top: 12px;
+    margin-left: 75px;
+}
+
+.logout-btn {
+    color: white;
+    border: 2px solid white;
+    margin-top: 20px;
+    background-color: #643f86;
+    border-radius: 8px;
+    padding: 4px 12px 4px 12px;
+    margin-left: 8px;
+
+}
+
+/* Navbar css */
+ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    width: 20%;
+    background-color: #f1f1f1;
+    position: fixed;
+    height: 100%;
+    overflow: auto;
+}
+
+li {
+    display: block;
+    color: #000;
+    padding: 8px 16px;
+    text-decoration: none;
+}
+
+li.active {
+    background-color: rgb(247, 229, 182);
+}
+
+li:hover:not(.active) {
+    background-color: rgb(247, 229, 182);
+}
+
+.homeDetails {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+  
+.home-img {
+    height: 50px;
+    width: 55px;
+    margin-top: 160px; 
+}
+  
+.home-digital {
+    font-weight: bolder;
+    font-size: 37px;
+    color: #331f46;
+}
+  
+.home-flake {
+    font-weight: 400;
+    font-size: 37px;
+    color: #38234d;
+}
+  
+.custom-container-fluid {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+}
+
+/* Add Category Css*/
+
+.back-arrow {
+    font-size: 45px;
+    color: #6b6b6b;
+    /* margin-left: 30px; */
+}
+
+.add-category {
+    font-weight: 500;
+    font-size: 27px;
+}
+
+.status-hw {
+    height: 38px;
+    width: -webkit-fill-available;
+    border-radius: 5px;
+    border: var(--bs-border-width) solid var(--bs-border-color);
+}
+
+.btn-end{
+    display: flex;
+    justify-content: flex-end;
+  }
+  
+.flex-container {
+    margin-top: 300px; 
+}
+  
+.cancel-category {
+    border-radius: 47px;
+    border: 1px solid rgb(141, 140, 140);
+    background-color: #fff;
+    font-size: 20px;
+    padding: 5px 39px;
+}
+  
+.save-category {
+    border-radius: 47px;
+    border: none;
+    background-color: #7935b9;
+    color: #fff;
+    font-size: 20px;
+    padding: 6px 49px;
+    margin-left: 10px;
+}
+
+/*Read Category CSS  */
+.ctgr-icon {
+    font-size: 33px;
+}
+
+.read-ctry {
+    margin-left: 23px;
+    font-size: 21px;
+    font-weight: 500;
+}
+
+.input-container {
+    position: relative;
+    display: inline-block;
+
+}
+
+.search-icon {
+    position: absolute;
+    left: 68px;
+    top: 60%;
+    transform: translateY(-50%);
+    color: #8d8585;
+    cursor: pointer;
+    font-size: 24px;
+}
+
+.search-input {
+    padding-left: 45px;
+    width: 75%;
+    height: 37px;
+    border-radius: 10px;
+    border: 1px solid #afabab;
+    margin-top: 20px;
+    font-style: italic;
+    margin-left: 45px;
+}
+
+.addNew-btn {
+    border: none;
+    border-radius: 10px;
+    margin-top: 20px;
+    margin-left: 50px;
+    font-size: 12px;
+    padding: 9px 22px 9px 22px;
+    background-color: #5e2a8f;
+    color: #fff;
+    text-align: center;
+}
+
+/* add Product CSS */
+.prod-flex-container {
+    margin-top: 250px; 
+}
+.cancel-product {
+    border-radius: 47px;
+    border: 1px solid rgb(141, 140, 140);
+    background-color: #fff;
+    font-size: 20px;
+    padding: 5px 39px;
+}
+  
+.save-product {
+    border-radius: 47px;
+    border: none;
+    background-color: #7935b9;
+    color: #fff;
+    font-size: 20px;
+    padding: 6px 49px;
+    margin-left: 10px;
+}
+
+/* user CSS*/
+
+.user-form{
+    margin-left: 300px;
+    margin-top: 115px;
+}
