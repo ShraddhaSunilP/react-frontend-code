@@ -8,10 +8,6 @@ export class RequestDefaults {
   }
 }
 
-const headers = {
-  "Access-Control-Allow-Origin": "*"
-}
-
 const parseError = (errText) => {
   try {
     let err = JSON.parse(errText);
@@ -40,10 +36,7 @@ export const Post = async (path, json) => {
   try {
     response.result = await axios.post(
       `${RequestDefaults.baseUrl}${path}`,
-      json,
-      {
-        headers: headers
-      }
+      json
     );
   } catch (e) {
     response.err = parseError(e.text);

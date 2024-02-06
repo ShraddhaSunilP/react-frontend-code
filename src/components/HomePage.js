@@ -11,10 +11,10 @@ const HomePage = () => {
 
   const navigate = useNavigate();
 
-  useEffect(() => {
-    // Redirect to the login page when HomePage component mounts
-    navigate('/login');
-  }, [navigate]);
+  // useEffect(() => {
+  //   // Redirect to the login page when HomePage component mounts
+  //   navigate('/login');
+  // }, [navigate]);
 
   const [loadView, setLoadView] = useState('Home');
 

@@ -1,6 +1,7 @@
 import React from 'react';
 import { useForm, Controller } from 'react-hook-form';
 import {Link} from "react-router-dom";
+import { UserApiUrls } from "../api/UserApiUrls";
 
 
 function User() {
@@ -13,12 +14,20 @@ function User() {
     });
     
     const onSubmit = async (data) => {
-        console.log(data);
+        try {
+            const response = await UserApiUrls.create(data);
+            console.log("Response:", response);
+            alert("Submitted");
+
+        } catch (error) {
+            console.error("API Error:", error);
+        }
     };
 
     return (
         <>
-            <div className="container">
+            <div className="container text-center   ">
+                <h2>Forgot Password Page</h2>
                 <div className="col-md-3"></div>
                 <div className="col-md-6 user-form">
                     <form onSubmit={handleSubmit(onSubmit)}>
@@ -52,9 +61,9 @@ function User() {
                             />
                             {errors.password && <div className="invalid-feedback">{errors.password.message}</div>}
                         </div>
-                        <button type="submit" className="btn btn-primary">Submit</button>
-                        <div className="text-center"> 
-                            <Link to ="/login">Log In</Link>
+                        <div> 
+                            <button type="submit" className="btn btn-primary Login-forgot-page">Submit</button>
+                            <span className="login-forgot"><Link to ="/login">Log In</Link></span>
                         </div>
                     </form>
                 </div>

@@ -24,6 +24,9 @@ return (
         <Route exact path="/addproducts" element={<AddProducts/>}></Route>
         <Route exact path="/readproducts" element={<ReadProducts/>}></Route>
         <Route exact path="/homedetails" element={<HomeDetails/>}></Route>
+        
+        
+        
       </Routes>
     </BrowserRouter>
   )

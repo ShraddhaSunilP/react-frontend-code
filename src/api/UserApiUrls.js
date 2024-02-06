@@ -1,8 +1,8 @@
-import { Login } from "./apiUser"
-import { Put } from "./apiUser"
-import { Post } from "./apiUser"
+import { Post } from "./UserApi"
+import { Login } from "./UserApi"
+import { Put } from "./UserApi"
 
-export const UserApiUrl = {
+export const UserApiUrls = {
     create : async (json) => {
         return await Post("/addUser", json)
     },
@@ -15,6 +15,4 @@ export const UserApiUrl = {
          return await Put("/forgotPassword", json)
     },
 
-}
-
-
+} 

@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect,  } from 'react'
 import alertify from 'alertifyjs';
 import 'alertifyjs/build/css/alertify.css';
 import { BiCategoryAlt } from "react-icons/bi";
@@ -6,19 +6,50 @@ import { IoIosSearch } from "react-icons/io";
 import { FiEdit } from "react-icons/fi";
 import { RiDeleteBinLine } from "react-icons/ri";
 import AddCategory from "./AddCategory";
+import { CategoryApiUrls } from '../api/CategoryApiUrls';
 
 const ReadCategoey = () => {
 
-  const [addNew, setAddNewCategory] = useState(false)
+  // save the (result) in empData 
+  const [categoryData, setCategoryData] = useState([]);
+  const [addNew, setAddNew] = useState(false)
+  const [editCategory, setEditCategory] = useState(null);
 
   const handleClick = () => {
-    setAddNewCategory(true);
+    setAddNew(true);
   }
 
   const sendDataToParent = (e) => {
     console.log(e);
-    setAddNewCategory(false);
+    setAddNew(false);
   };
+
+  const fetchData = async (data) => {
+    const response = await CategoryApiUrls.getall(data);
+    console.log(data);
+
+    // check if the API call was successfull
+    if (response.result) {
+
+        //update the state with the fetched data 
+        setCategoryData(response.result.data);
+    } else {
+        // Handle the error, you can log it or show message to the user
+        console.log("Error fetching data: ", response.result);
+    }
+}
+
+const handleEdit = (category) =>{
+  setEditCategory(category);
+  setAddNew(true);
+  
+
+}
+
+useEffect(() => {
+  // Call the api when the component mount
+  fetchData();
+}, []);
 
   const handleConfirmDelete = () => {
     alertify.set('notifier', 'position', 'top-center');
@@ -63,19 +94,21 @@ const ReadCategoey = () => {
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <th scope="row">1</th>
-                <td>Mark</td>
-                <td>Otto</td>
-                <td>@mdo</td>
+              {categoryData.map((category) => (
+              <tr key={category.id}>
+                <th scope="row">{category.id}</th>
+                <td>{category.name}</td>
+                <td>{category.description}</td>
+                <td>{category.status}</td>
                 <td>
-                  <FiEdit /> &nbsp;&nbsp;&nbsp;
+                  <span onClick={()=>handleEdit(category)}><FiEdit /></span> &nbsp;&nbsp;&nbsp;
                   <span onClick={handleConfirmDelete}><RiDeleteBinLine /></span>
                 </td>
               </tr>
+              ))}
             </tbody>
           </table>
-        </div> : <AddCategory sendDataToParent={sendDataToParent} />}
+        </div> : <AddCategory sendDataToParent={sendDataToParent} editCategory={editCategory} />}
 
     </>
   )

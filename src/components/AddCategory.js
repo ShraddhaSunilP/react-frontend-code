@@ -1,13 +1,33 @@
 import React from 'react';
 import { IoIosArrowRoundBack } from 'react-icons/io';
-import { useForm, Controller } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
+import { useNavigate } from 'react-router-dom';
+import { CategoryApiUrls } from '../api/CategoryApiUrls';
 
-const AddCategory = ({ sendDataToParent }) => {
-  const { handleSubmit, control, formState: { errors } } = useForm();
+const AddCategory = (props, { sendDataToParent }) => {
+  console.log(props.editCategory);
+  
+  const { handleSubmit, register, formState: { errors } } = useForm();
 
-  const onSubmit = (data) => {
-    // Handle form submission
-    console.log(data);
+  const goToReadCategory = useNavigate();
+
+  const onSubmit = async (data) => {
+    try {
+      if (data.status !== 'active' && data.status !== 'inactive') {
+        console.error('Invalid status provided. Status must be "active" or "inactive".');
+        return;
+      }
+
+      const result = await CategoryApiUrls.create(data);
+      
+      console.log('Response data:', result);
+
+      if (result.status === 200) {
+        goToReadCategory('/readcategory'); 
+      }
+    } catch (error) {
+      console.error('Error occurred while submitting the form:', error);
+    }
   };
 
   return (
@@ -21,55 +41,40 @@ const AddCategory = ({ sendDataToParent }) => {
       <div className="row container-fluid">
         <form onSubmit={handleSubmit(onSubmit)} className="col-md-12">
           <div className="row">
-          <div className="form-group col-md-4">
-            <label>Category Name</label>
-            <Controller
-              name="categoryName"
-              control={control}
-              rules={{ required: 'Category Name is required' }}
-              render={({ field }) => (
-                <>
-                  <input {...field} type="text" className={`form-control ${errors.categoryName ? 'is-invalid' : ''}`} />
-                  {errors.categoryName && <div className="invalid-feedback">{errors.categoryName.message}</div>}
-                </>
-              )}
-            />
-          </div>
-          <div className="form-group col-md-4">
-            <label>Description</label>
-            <Controller
-              name="description"
-              control={control}
-              rules={{ required: 'Description is required' }}
-              render={({ field }) => (
-                <>
-                  <input {...field} type="text" className={`form-control ${errors.description ? 'is-invalid' : ''}`} />
-                  {errors.description && <div className="invalid-feedback">{errors.description.message}</div>}
-                </>
-              )}
-            />
-          </div>
-          <div className="form-group col-md-4">
-            <label>Status</label>
-            <Controller
-              name="status"
-              control={control}
-              rules={{ required: 'Status is required' }}
-              render={({ field }) => (
-                <>
-                  <select {...field} className="status-hw form-control">
-                    <option value="active">Active</option>
-                    <option value="inactive">Inactive</option>
-                  </select>
-                </>
-              )}
-            />
-          </div>
-          <div className="col-md-12 btn-end flex-container">
-            <span><button type="button" className="cancel-category" onClick={sendDataToParent}>Cancel</button></span>
-            &nbsp;&nbsp;
-            <span><button type="submit" className="save-category">Save</button></span>
-          </div>
+            <div className="form-group col-md-4">
+              <label>Category Name</label>
+              <input
+                {...register('name', { required: 'Category Name is required' })}
+                type="text"
+                className={`form-control ${errors.categoryName ? 'is-invalid' : ''}`}
+              />
+              {errors.categoryName && <div className="invalid-feedback">{errors.categoryName.message}</div>}
+            </div>
+            <div className="form-group col-md-4">
+              <label>Description</label>
+              <input
+                {...register('description', { required: 'Description is required' })}
+                type="text"
+                className={`form-control ${errors.description ? 'is-invalid' : ''}`}
+              />
+              {errors.description && <div className="invalid-feedback">{errors.description.message}</div>}
+            </div>
+            <div className="form-group col-md-4">
+              <label>Status</label>
+              <select
+                {...register('status', { required: 'Status is required' })}
+                className="status-hw form-control"
+              >
+                <option value="active">Active</option>
+                <option value="inactive">Inactive</option>
+              </select>
+              {errors.status && <div className="invalid-feedback">{errors.status.message}</div>}
+            </div>
+            <div className="col-md-12 btn-end flex-container">
+              <span><button type="button" className="cancel-category" onClick={sendDataToParent}>Cancel</button></span>
+              &nbsp;&nbsp;
+              <span><button type="submit" className="save-category">Save</button></span>
+            </div>
           </div>
         </form>
       </div>

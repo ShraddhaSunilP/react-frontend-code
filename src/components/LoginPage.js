@@ -1,13 +1,33 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import alertify from 'alertifyjs';
+import 'alertifyjs/build/css/alertify.css';
+import { Link, useNavigate } from 'react-router-dom';
 import { useForm, Controller } from 'react-hook-form';
+import { UserApiUrls } from '../api/UserApiUrls';
 
 const LoginPage = () => {
     const { handleSubmit, control, formState: { errors } } = useForm();
 
-    const onSubmit =  (data) => {
-       console.log(data);
-    };
+    const goToHomePage = useNavigate();
+
+    const onSubmit = async (data) => {
+        try {
+            const {result} = await UserApiUrls.login(data);
+            console.log("Response Data:", result);
+        
+            if(result.status === 200){
+                goToHomePage("/");  // redirect to home page
+
+            } else {
+              alertify.set('notifier', 'position', 'top-center');
+                alertify.error('Login Failed.');
+                
+            }
+        } catch (error) {
+            console.error("Email or Password not found");
+            alert("Email or Password not found");
+        } 
+    }
 
     return (
         <>

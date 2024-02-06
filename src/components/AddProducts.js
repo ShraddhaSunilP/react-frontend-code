@@ -1,13 +1,26 @@
-// import React from 'react';
+import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import { IoIosArrowRoundBack } from 'react-icons/io';
-import { useForm, Controller } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
+import { ProductsApiUrls } from '../api/ProductsApiUrls';
+
 
 const AddProducts = ({ sendDataToParent }) => {
-  const { handleSubmit, control, formState: { errors } } = useForm();
+  const { handleSubmit, register, formState: { errors } } = useForm();
 
-  const onSubmit = (data) => {
-    // Handle form submission
-    console.log(data);
+  const goToReadProducts = useNavigate();
+
+  const onSubmit = async (data) => {
+    try {
+      const result = await ProductsApiUrls.create(data);
+      console.log("Response Data: ", result);
+
+      if (result.status === 200) {
+        goToReadProducts('/readproducts'); 
+      }
+    } catch (error) {
+      console.error('Error occurred while submitting the form:', error);
+    }
   };
 
   return (
@@ -24,64 +37,37 @@ const AddProducts = ({ sendDataToParent }) => {
             <div className="row">
               <div className="col-md-4">
                 <label>Category</label>
-                <Controller
-                  name="category"
-                  control={control}
-                  rules={{ required: 'Category is required' }}
-                  render={({ field }) => (
-                    <select {...field} className={`status-hw form-control ${errors.category ? 'is-invalid' : ''}`}>
-                      <option value="milks">Milks</option>
-                      <option value="fruits">Fruits</option>
-                    </select>
-                  )}
-                />
+                <select {...register('category', { required: 'Category is required' })} className={`status-hw form-control ${errors.category ? 'is-invalid' : ''}`}>
+                  <option value="">Select category</option>
+                  <option value="milks">Milks</option>
+                  <option value="fruits">Fruits</option>
+                </select>
                 {errors.category && <div className="invalid-feedback">{errors.category.message}</div>}
               </div>
               <div className="col-md-4">
                 <label>Product Name</label>
-                <Controller
-                  name="productName"
-                  control={control}
-                  rules={{ required: 'Product Name is required' }}
-                  render={({ field }) => <input {...field} type="text" className={`form-control ${errors.productName ? 'is-invalid' : ''}`} />}
-                />
+                <input {...register('productName', { required: 'Product Name is required' })} type="text" className={`form-control ${errors.productName ? 'is-invalid' : ''}`} />
                 {errors.productName && <div className="invalid-feedback">{errors.productName.message}</div>}
               </div>
               <div className="col-md-4">
                 <label>Pack Size</label>
-                <Controller
-                  name="packSize"
-                  control={control}
-                  rules={{ required: 'Pack Size is required' }}
-                  render={({ field }) => <input {...field} type="text" className={`form-control ${errors.packSize ? 'is-invalid' : ''}`} />}
-                />
+                <input {...register('packSize', { required: 'Pack Size is required' })} type="text" className={`form-control ${errors.packSize ? 'is-invalid' : ''}`} />
                 {errors.packSize && <div className="invalid-feedback">{errors.packSize.message}</div>}
               </div>
             </div>
             <div className="row">
               <div className="col-md-4">
                 <label>MRP</label>
-                <Controller
-                  name="mrp"
-                  control={control}
-                  rules={{ required: 'MRP is required' }}
-                  render={({ field }) => <input {...field} type="text" className={`form-control ${errors.mrp ? 'is-invalid' : ''}`} />}
-                />
+                <input {...register('mrp', { required: 'MRP is required' })} type="text" className={`form-control ${errors.mrp ? 'is-invalid' : ''}`} />
                 {errors.mrp && <div className="invalid-feedback">{errors.mrp.message}</div>}
               </div>
               <div className="col-md-4">
                 <label>Status</label>
-                <Controller
-                  name="status"
-                  control={control}
-                  rules={{ required: 'Status is required' }}
-                  render={({ field }) => (
-                    <select {...field} className="status-hw form-control">
-                      <option value="active">Active</option>
-                      <option value="inactive">Inactive</option>
-                    </select>
-                  )}
-                />
+                <select {...register('status', { required: 'Status is required' })} className="status-hw form-control">
+                  <option value="active">Active</option>
+                  <option value="inactive">Inactive</option>
+                </select>
+                {errors.status && <div className="invalid-feedback">{errors.status.message}</div>}
               </div>
             </div>
           </div>
