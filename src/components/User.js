@@ -27,7 +27,7 @@ function User() {
     return (
         <>
             <div className="container text-center   ">
-                <h2>Forgot Password Page</h2>
+                <h2>Signup Page</h2>
                 <div className="col-md-3"></div>
                 <div className="col-md-6 user-form">
                     <form onSubmit={handleSubmit(onSubmit)}>

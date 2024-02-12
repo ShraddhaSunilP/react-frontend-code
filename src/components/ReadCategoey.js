@@ -1,4 +1,4 @@
-import React, { useState, useEffect,  } from 'react'
+import React, { useState, useEffect, } from 'react'
 import alertify from 'alertifyjs';
 import 'alertifyjs/build/css/alertify.css';
 import { BiCategoryAlt } from "react-icons/bi";
@@ -7,64 +7,82 @@ import { FiEdit } from "react-icons/fi";
 import { RiDeleteBinLine } from "react-icons/ri";
 import AddCategory from "./AddCategory";
 import { CategoryApiUrls } from '../api/CategoryApiUrls';
+import { useNavigate } from "react-router-dom";
+ 
 
 const ReadCategoey = () => {
 
-  // save the (result) in empData 
+  // save the (result) in categoryData 
   const [categoryData, setCategoryData] = useState([]);
-  const [addNew, setAddNew] = useState(false)
-  const [editCategory, setEditCategory] = useState(null);
+  const [addNew, setAddNewCategory] = useState(false)
+  // const [editCategory, setEditCategory] = useState(null);
 
-  const handleClick = () => {
-    setAddNew(true);
-  }
+  const goToUpdateCategory = useNavigate();
 
-  const sendDataToParent = (e) => {
-    console.log(e);
-    setAddNew(false);
-  };
-
+  // Getall api
   const fetchData = async (data) => {
     const response = await CategoryApiUrls.getall(data);
     console.log(data);
 
     // check if the API call was successfull
     if (response.result) {
-
-        //update the state with the fetched data 
-        setCategoryData(response.result.data);
+      //update the state with the fetched data 
+      setCategoryData(response.result.data);
     } else {
-        // Handle the error, you can log it or show message to the user
-        console.log("Error fetching data: ", response.result);
+      // Handle the error, you can log it or show message to the user
+      console.log("Error fetching data: ", response.result);
     }
-}
+  }
 
-const handleEdit = (category) =>{
-  setEditCategory(category);
-  setAddNew(true);
+  const handleClick = () => {
+    setAddNewCategory(true);
+  }
+
+  // for condition base toggle component 
+  const sendDataToParent = (e) => {
+    console.log(e);
+    setAddNewCategory(false);
+  };
+
+  // for edit data
+  const handleEdit = (category) => {
+    // check data is coming or not 
+    console.log(category);
+    goToUpdateCategory("/updatecategory", { state : category });
+
+  }
+  // for handle the side effect in component(if state or value changes useEffect is use to re-render the component all time)
+  useEffect(() => {
+    // Call the api when the component mount
+    fetchData();
+  }, []);
+
   
-
-}
-
-useEffect(() => {
-  // Call the api when the component mount
-  fetchData();
-}, []);
-
-  const handleConfirmDelete = () => {
-    alertify.set('notifier', 'position', 'top-center');
-    alertify.confirm('Confirmation', 'Are you sure you want to delete?',
-      function () {
-
-      }
-      , function () {
-
-      });
+  // Delete api
+  const handleDelete = async (category) => {
+    console.log(category);
+    // call delete api
+    const response = await CategoryApiUrls.delete(category.id)
+    if (response.result) {
+      //If deletion is successfull, fetch update data
+      console.log("Deleted Successfully");
+      
+      //alertify for confirmation to delete 
+      alertify.set('notifier', 'position', 'top-center');
+      alertify.confirm('Confirmation', 'Are you sure you want to delete?',
+        function () {
+        }
+        , function () {
+        });
+      fetchData();
+    } else {
+      console.log("Error deleting category: ", response.result)
+    }
   };
 
   return (
     <>
-      {!addNew ?
+      {!addNew ? // when we click on AddNew btn that time addNew will be true  !addNew(true) means AddNew(false) thats why it render the addCategory component
         <div className="container-fluid">
           <div className="row">
             <div className="col-md-3">
@@ -95,23 +113,24 @@ useEffect(() => {
             </thead>
             <tbody>
               {categoryData.map((category) => (
-              <tr key={category.id}>
-                <th scope="row">{category.id}</th>
-                <td>{category.name}</td>
-                <td>{category.description}</td>
-                <td>{category.status}</td>
-                <td>
-                  <span onClick={()=>handleEdit(category)}><FiEdit /></span> &nbsp;&nbsp;&nbsp;
-                  <span onClick={handleConfirmDelete}><RiDeleteBinLine /></span>
-                </td>
-              </tr>
+                <tr key={category.id}>
+                  <th scope="row">{category.id}</th>
+                  <td>{category.name}</td>
+                  <td>{category.description}</td>
+                  <td>{category.status}</td>
+                  <td>
+                    <span onClick={() => handleEdit(category)}><FiEdit /></span> &nbsp;&nbsp;&nbsp;
+                    <span onClick={() => handleDelete(category)}><RiDeleteBinLine /></span>
+                  </td>
+                </tr>
               ))}
             </tbody>
           </table>
-        </div> : <AddCategory sendDataToParent={sendDataToParent} editCategory={editCategory} />}
-
+        </div> : <AddCategory sendDataToParent={sendDataToParent} />} 
+              {/*call <AddCategory /> when condition is false */}
     </>
-  )
+  ) 
 }
+
 
 export default ReadCategoey

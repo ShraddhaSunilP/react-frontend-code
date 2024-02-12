@@ -96,6 +96,7 @@ export const Put = async (path, json) => {
       `${RequestDefaults.baseUrl}${path}`,
       json
     );
+
   } catch (e) {
     response.err = parseError(e.text);
     response.status = e.status;

@@ -1,82 +1,48 @@
+import React, { useEffect } from "react";
 import { IoIosArrowRoundBack } from 'react-icons/io';
 import { useForm } from 'react-hook-form';
 import { ProductsApiUrls } from '../api/ProductsApiUrls';
-import { useEffect } from "react";
+import { useLocation } from "react-router-dom";
  
-const AddProducts = ({ sendDataToParent, product }) => {
+const UpdateProducts = () => {
+    const {state} = useLocation();
+    
   // for validation
   const { handleSubmit, register, setValue, formState: { errors }} = useForm();
 
-  useEffect(()=>{
-    if(product){
-      Object.keys(product).forEach((key)=>{
-        setValue(key, product[key]);
-      });
-    } else {
-      // If no product is provided, reset all form fields
-      setValue('category', '');
-      setValue('productName', '');
-      setValue('packSize', '');
-      setValue('mrp', '');
-      setValue('status', '');
-    }
-  },[product, setValue]);
+    // pre-fill form fields with state data
+    useEffect(()=>{
+        if(state){
+            Object.keys(state).forEach((key)=>{
+                setValue(key, state[key]);
+            });
+        }
+    },[state, setValue]);
 
-  const onSubmit = async (data) =>{
-    try{
-      // Check if it's an update or create operation
-      if(product){
-        //Update API call
-        const response = await ProductsApiUrls.update(product.id, data);
+
+    const onSubmit = async(data) => {
+      try{
+        const id = state.id;
+        const response = await ProductsApiUrls.update(id, data);
+        console.log(data);
         if(response.result){
-          console.log("Product updated successfully");
-          // reset();
-          sendDataToParent();
-        } else {
-          console.log("Failed to create product");
+            console.log("data updated successfully");
+            alert("data updated");
         }
-      } else {
-        //Create API call
-        const response = await ProductsApiUrls.create(data);
-        if(response.result){
-          console.log("Product created successfully");
-          sendDataToParent();
-        } else {
-          console.log("Failed to create product");
+        else {
+            console.log("Failed to updated");
         }
+    }catch(error){
+        console.log("Error occurred while submitting the form: ", error); 
       }
-    } catch(error){
-      console.log("Error occurred while subbmitting the form",error);
+
     }
-  }
-
- 
-    // const onSubmit = async(data) => {
-    //   try{
-    //     if (data.status !== 'active' && data.status !== 'inactive') {
-    //       console.error('Invalid status provided. Status must be "active" or "inactive".');
-    //       return;
-    //     }
-    //     const response = await ProductsApiUrls.create(data);
-    //     console.log("Response Data :", data);
-    //     if(response.result){
-    //       console.log("Submitted...");
-    //       alert("Submitted...");
-    //     }else{
-    //       console.log("failed to submit");
-    //     }
-    //   }catch(error){
-    //     console.log("Error occurred while submitting the form: ", error); 
-    //   }
-
-    // }
-
     return (
     <>
       <div className="row">
         <div>
-          <span className="back-arrow" onClick={(e) => { e.preventDefault(); sendDataToParent();}}><IoIosArrowRoundBack /></span>
-          <span className="add-category">{product ? 'Update Product' : 'Add Product'}</span>
+          <span className="back-arrow"><IoIosArrowRoundBack /></span>
+          <span className="add-category">Add Product</span>
         </div>
       </div>
       <div className="row container-fluid">
@@ -120,9 +86,9 @@ const AddProducts = ({ sendDataToParent, product }) => {
             </div>
           </div>
           <div className="col-md-12 btn-end prod-flex-container">
-            <span><button type="button" className="cancel-category" onClick={sendDataToParent}>Cancel</button></span>
+            <span><button type="button" className="cancel-category">Cancel</button></span>
             &nbsp;&nbsp;
-            <span><button type="submit" className="save-category">{product ? 'Update' : 'Save'}</button></span>
+            <span><button type="submit" className="save-category">Save</button></span>
           </div>
         </form>
       </div>
@@ -130,4 +96,5 @@ const AddProducts = ({ sendDataToParent, product }) => {
   );
 };
 
-export default AddProducts;
+export default UpdateProducts;
+

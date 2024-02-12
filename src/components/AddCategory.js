@@ -1,15 +1,12 @@
 import React from 'react';
 import { IoIosArrowRoundBack } from 'react-icons/io';
 import { useForm } from 'react-hook-form';
-import { useNavigate } from 'react-router-dom';
 import { CategoryApiUrls } from '../api/CategoryApiUrls';
 
-const AddCategory = (props, { sendDataToParent }) => {
-  console.log(props.editCategory);
+const AddCategory = ({sendDataToParent}) => {
   
   const { handleSubmit, register, formState: { errors } } = useForm();
-
-  const goToReadCategory = useNavigate();
+ 
 
   const onSubmit = async (data) => {
     try {
@@ -17,13 +14,15 @@ const AddCategory = (props, { sendDataToParent }) => {
         console.error('Invalid status provided. Status must be "active" or "inactive".');
         return;
       }
+      // api call for post method 
+      const response = await CategoryApiUrls.create(data);
+      //console.log(data);
+      console.log('Response data:', response);
 
-      const result = await CategoryApiUrls.create(data);
-      
-      console.log('Response data:', result);
-
-      if (result.status === 200) {
-        goToReadCategory('/readcategory'); 
+      if (response.result) {
+        console.log("submitted !!!");
+      } else {
+        console.log("submitted failed !!!");
       }
     } catch (error) {
       console.error('Error occurred while submitting the form:', error);

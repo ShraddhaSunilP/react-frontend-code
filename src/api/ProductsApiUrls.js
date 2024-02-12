@@ -17,11 +17,11 @@ export const ProductsApiUrls = {
         return await Patch("/productGetById", json)
     },
 
-    update : async (id, json) => {
-        return await Put(`/updateProductById/${id}`, json)
+    update : async (id, json) =>{
+        return await Put(`/updateProductById/${id}`, json);
     },
 
     delete : async (id, json) => {
-        return await Delete(`/deleteProductById/${id}`, json)
+        return await Delete(`/deleteproductById/${id}`, json)
     }
 };
