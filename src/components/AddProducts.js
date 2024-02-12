@@ -4,8 +4,8 @@ import { ProductsApiUrls } from '../api/ProductsApiUrls';
 import { useEffect } from "react";
  
 const AddProducts = ({ sendDataToParent, product }) => {
-  // for validation
-  const { handleSubmit, register, setValue, formState: { errors }} = useForm();
+
+  const { handleSubmit, register, setValue, formState: { errors }} = useForm();   // for validation
 
   useEffect(()=>{
     if(product){
@@ -13,8 +13,7 @@ const AddProducts = ({ sendDataToParent, product }) => {
         setValue(key, product[key]);
       });
     } else {
-      // If no product is provided, reset all form fields
-      setValue('category', '');
+      setValue('category', '');  // If no product is provided, reset all form fields
       setValue('productName', '');
       setValue('packSize', '');
       setValue('mrp', '');
@@ -25,19 +24,16 @@ const AddProducts = ({ sendDataToParent, product }) => {
   const onSubmit = async (data) =>{
     try{
       // Check if it's an update or create operation
-      if(product){
-        //Update API call
-        const response = await ProductsApiUrls.update(product.id, data);
+      if(product){   
+        const response = await ProductsApiUrls.update(product.id, data);  //Update API call
         if(response.result){
           console.log("Product updated successfully");
-          // reset();
           sendDataToParent();
         } else {
           console.log("Failed to create product");
         }
       } else {
-        //Create API call
-        const response = await ProductsApiUrls.create(data);
+        const response = await ProductsApiUrls.create(data);  //Create API call
         if(response.result){
           console.log("Product created successfully");
           sendDataToParent();
@@ -49,28 +45,7 @@ const AddProducts = ({ sendDataToParent, product }) => {
       console.log("Error occurred while subbmitting the form",error);
     }
   }
-
- 
-    // const onSubmit = async(data) => {
-    //   try{
-    //     if (data.status !== 'active' && data.status !== 'inactive') {
-    //       console.error('Invalid status provided. Status must be "active" or "inactive".');
-    //       return;
-    //     }
-    //     const response = await ProductsApiUrls.create(data);
-    //     console.log("Response Data :", data);
-    //     if(response.result){
-    //       console.log("Submitted...");
-    //       alert("Submitted...");
-    //     }else{
-    //       console.log("failed to submit");
-    //     }
-    //   }catch(error){
-    //     console.log("Error occurred while submitting the form: ", error); 
-    //   }
-
-    // }
-
+  
     return (
     <>
       <div className="row">

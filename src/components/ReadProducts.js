@@ -5,93 +5,72 @@ import { FiEdit } from "react-icons/fi";
 import { RiDeleteBinLine } from "react-icons/ri";
 import { ProductsApiUrls } from "../api/ProductsApiUrls";
 import AddProducts from "./AddProducts";
-// import { useNavigate } from "react-router-dom";
 import alertify from 'alertifyjs';
 import 'alertifyjs/build/css/alertify.css';
 
-
-
 const ReadProducts = () => {
 
-  // stat for rendering conditional based component  
-  const [addNew, setAddNewProducts] = useState(false)
-  // state for storing api response
-  const [productData, setProductData] = useState([]);
-  const [editProduct, setEditProduct] = useState();
   
-  // const history = useNavigate();
+  const [addNew, setAddNewProducts] = useState(false)  // stat for rendering conditional based component
+  const [productData, setProductData] = useState([]);  // state for storing api response
+  const [editProduct, setEditProduct] = useState();
 
-  // api calling for getall data in table
-  const fetchData = async (data) => {
+  
+  const fetchData = async (data) => {  // api calling for getall data in table
     const response = await ProductsApiUrls.getall(data);
     console.log(data);
-    // check if the API call was successfull
-    if (response.result) {
-        //update the state with the fetched data 
-      setProductData(response.result.data);
+    if (response.result) {  // check if the API call was successfull
+       setProductData(response.result.data);  //update the state with the fetched data
     } else {
-      // Handle the error, you can log it or show message to the user
-      console.log("Error fetching data: ", response.result);
+      console.log("Error fetching data: ", response.result);  // Handle the error, you can log it or show message to the user
     }
   }
 
+  
   useEffect(() => {
-    // Call the api when the component mount
-    fetchData();
+    fetchData();  // Call the api when the component mount
   }, []);
 
-  // func for add new products
-  const handleClick = () => {
+
+  const handleClick = () => {    // func for add new products
     setAddNewProducts(true);
     setEditProduct(null);
   };
 
-  //function for edit 
-  // const handleEditProduct = (product) => {
-  //   history("/updateproducts", {state: product});
-  // };
+  const sendDataToParent = (e) => {
+    setAddNewProducts(false);
+    fetchData();
+  };
 
   const handleEditProduct = (product) => {
     setAddNewProducts(true);
     setEditProduct(product);  // state variable to hold the product being edited
   }
-  
 
-  const sendDataToParent = (e) => {
-    console.log(e);
-    setAddNewProducts(false);
-    fetchData();
+ 
+  const handleDeleteProduct = async (product) => {   //function for delete 
+    console.log(product);  //check data is coming or not
 
-  };
-
-//function for delete 
-  const handleDeleteProduct = async (product) => {
-    //check data is coming or not
-    console.log(product);
-  // Call the delete API
-    const response = await ProductsApiUrls.delete(product.id);
-      if(response.result) { 
-        //If deletion is successfull, fetch update data
-        console.log("deleted successfully.");
-
-        //alertify for confirmation to delete 
-      alertify.set('notifier', 'position', 'top-center');
-      alertify.confirm('Confirmation', 'Are you sure you want to delete?',
-        function () {
+    alertify.confirm(
+      'Confirmation',
+      'Are you sure you want to delete?',
+      async function () {
+        const response = await ProductsApiUrls.delete(product.id);   // Call the delete API
+        if(response.result) { 
+          console.log("deleted successfully.");  //If deletion is successfull, fetch update data
+          fetchData();
+        } else {
+          console.log('Error deleting category: ', response.result);
         }
-        , function () {
-        });
-        fetchData();
-      } else {
-      console.log("Error deleting product: ", response.result)
-    }
+      },
+      function () {
+      }
+    );
   };
  
   return (
     <>
-      {!addNew ? // "!" means false becomes true and true becomes false 
-                 //just consider "addNew=false" when i write "!addNew" addnew becomes "true" 
-                 //here we use ternery operator Ex: {condiiton ? true : false}                     
+      {!addNew ?                     
         <div className="container-fluid">
           <div className="row">
             <div className="col-md-3">

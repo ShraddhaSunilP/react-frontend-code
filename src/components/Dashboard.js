@@ -9,8 +9,8 @@ import AddProducts from './AddProducts';
 import ReadProducts from './ReadProducts';
 import HomeDetails from './HomeDetails';
 import User from './User';
-import UpdateCategory from "./UpdateCategory";
-// import UpdateProducts from './UpdateProducts';
+
+
 const Dashboard = () => {
 
 return (
@@ -25,9 +25,6 @@ return (
         <Route exact path="/addproducts" element={<AddProducts/>}></Route>
         <Route exact path="/readproducts" element={<ReadProducts/>}></Route>
         <Route exact path="/homedetails" element={<HomeDetails/>}></Route>
-        <Route exact path="/updatecategory" element={<UpdateCategory/>}></Route>
-        {/* <Route exat path="/updateproducts" element={<UpdateProducts/>}></Route> */}
-
       </Routes>
     </BrowserRouter>
   )

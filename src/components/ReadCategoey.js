@@ -7,82 +7,67 @@ import { FiEdit } from "react-icons/fi";
 import { RiDeleteBinLine } from "react-icons/ri";
 import AddCategory from "./AddCategory";
 import { CategoryApiUrls } from '../api/CategoryApiUrls';
-import { useNavigate } from "react-router-dom";
  
 
 const ReadCategoey = () => {
 
-  // save the (result) in categoryData 
-  const [categoryData, setCategoryData] = useState([]);
+  const [categoryData, setCategoryData] = useState([]);  // save the (result) in categoryData 
   const [addNew, setAddNewCategory] = useState(false)
-  // const [editCategory, setEditCategory] = useState(null);
+  const [editCategory, setEditCategory] = useState(null);
 
-  const goToUpdateCategory = useNavigate();
-
-  // Getall api
-  const fetchData = async (data) => {
+  
+  const fetchData = async (data) => {  // Getall api
     const response = await CategoryApiUrls.getall(data);
     console.log(data);
-
-    // check if the API call was successfull
-    if (response.result) {
-      //update the state with the fetched data 
+    if (response.result) {  //update the state with the fetched data 
       setCategoryData(response.result.data);
     } else {
-      // Handle the error, you can log it or show message to the user
       console.log("Error fetching data: ", response.result);
     }
-  }
+  };
 
   const handleClick = () => {
     setAddNewCategory(true);
+    setEditCategory(null);
   }
 
-  // for condition base toggle component 
-  const sendDataToParent = (e) => {
-    console.log(e);
+
+  const sendDataToParent = (e) => {  // for condition base toggle component 
     setAddNewCategory(false);
+    fetchData();
   };
 
-  // for edit data
-  const handleEdit = (category) => {
-    // check data is coming or not 
-    console.log(category);
-    goToUpdateCategory("/updatecategory", { state : category });
-
+  
+  const handleEditCategory = (category) => { // for edit data
+    setAddNewCategory(true);
+    setEditCategory(category);  // state variable to hold the product being edited
   }
-  // for handle the side effect in component(if state or value changes useEffect is use to re-render the component all time)
+ 
   useEffect(() => {
-    // Call the api when the component mount
-    fetchData();
+    fetchData();   // Call the api when the component mount
   }, []);
 
-  
-  // Delete api
-  const handleDelete = async (category) => {
-    console.log(category);
-    // call delete api
-    const response = await CategoryApiUrls.delete(category.id)
-    if (response.result) {
-      //If deletion is successfull, fetch update data
-      console.log("Deleted Successfully");
-      
-      //alertify for confirmation to delete 
-      alertify.set('notifier', 'position', 'top-center');
-      alertify.confirm('Confirmation', 'Are you sure you want to delete?',
-        function () {
+
+  const handleDelete = async (category) => {  // Delete api
+    alertify.confirm(
+      'Confirmation',
+      'Are you sure you want to delete?',
+      async function () {
+        const response = await CategoryApiUrls.delete(category.id);
+        if (response.result) {
+          console.log('Deleted Successfully');
+          fetchData();
+        } else {
+          console.log('Error deleting category: ', response.result);
         }
-        , function () {
-        });
-      fetchData();
-    } else {
-      console.log("Error deleting category: ", response.result)
-    }
+      },
+      function () {}
+    );
   };
 
   return (
     <>
-      {!addNew ? // when we click on AddNew btn that time addNew will be true  !addNew(true) means AddNew(false) thats why it render the addCategory component
+      {!addNew ? 
         <div className="container-fluid">
           <div className="row">
             <div className="col-md-3">
@@ -119,15 +104,14 @@ const ReadCategoey = () => {
                   <td>{category.description}</td>
                   <td>{category.status}</td>
                   <td>
-                    <span onClick={() => handleEdit(category)}><FiEdit /></span> &nbsp;&nbsp;&nbsp;
+                    <span onClick={() => handleEditCategory(category)}><FiEdit /></span> &nbsp;&nbsp;&nbsp;
                     <span onClick={() => handleDelete(category)}><RiDeleteBinLine /></span>
                   </td>
                 </tr>
               ))}
             </tbody>
           </table>
-        </div> : <AddCategory sendDataToParent={sendDataToParent} />} 
-              {/*call <AddCategory /> when condition is false */}
+        </div> : <AddCategory sendDataToParent={sendDataToParent} category={editCategory} />} 
     </>
   ) 
 }
