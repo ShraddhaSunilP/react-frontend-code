@@ -110,7 +110,7 @@ const ReadProducts = () => {
               </tr>
             </thead>
             <tbody>
-              {filteredproductData.map((product) => (
+              {Array.isArray(filteredproductData) && filteredproductData.map((product) => (
                 <tr key={product.id}>
                   <th scope="row">{product.id}</th>
                   <td>{product.category}</td>
@@ -119,6 +119,7 @@ const ReadProducts = () => {
                   <td>{product.mrp}</td>
                   <td>{product.status}</td>
                   <td>
+
                     <span onClick={() => handleEditProduct(product)} ><FiEdit /></span> &nbsp;&nbsp;&nbsp;
                     <span onClick={() => handleDeleteProduct(product)}><RiDeleteBinLine /></span>
                   </td>
