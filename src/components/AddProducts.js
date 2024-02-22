@@ -2,7 +2,7 @@ import { IoIosArrowRoundBack } from 'react-icons/io';
 import { useForm } from 'react-hook-form';
 import { ProductsApiUrls } from '../api/ProductsApiUrls';
 import { useEffect } from "react";
- 
+
 const AddProducts = ({ sendDataToParent, product }) => {
 
   const { handleSubmit, register, setValue, formState: { errors }} = useForm();   // for validation
@@ -46,7 +46,7 @@ const AddProducts = ({ sendDataToParent, product }) => {
     }
   }
   
-    return (
+  return (
     <>
       <div className="row">
         <div>
@@ -86,7 +86,8 @@ const AddProducts = ({ sendDataToParent, product }) => {
               </div>
               <div className="col-md-4">
                 <label>Status</label>
-                <select {...register('status', { required: 'Status is required' })} className="status-hw form-control" >
+                <select {...register('status', { required: 'Status is required' })} className={`status-hw form-control ${errors.status ? 'is-invalid' : ''}`} >
+                  <option value="">Select Status</option>
                   <option value="active">Active</option>
                   <option value="inactive">Inactive</option>
                 </select>

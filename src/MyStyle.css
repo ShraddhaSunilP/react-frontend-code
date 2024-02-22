@@ -248,8 +248,8 @@ li:hover:not(.active) {
     border: none;
     background-color: #7935b9;
     color: #fff;
-    font-size: 20px;
-    padding: 6px 49px;
+    font-size: 17px;
+    padding: 9px 23px;
     margin-left: 10px;
 }
 
@@ -305,7 +305,7 @@ li:hover:not(.active) {
 
 /* add Product CSS */
 .prod-flex-container {
-    margin-top: 250px; 
+    margin-top: 216px; 
 }
 .cancel-product {
     border-radius: 47px;

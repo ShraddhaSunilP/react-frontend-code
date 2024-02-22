@@ -14,6 +14,7 @@ const ReadCategoey = () => {
   const [categoryData, setCategoryData] = useState([]);  // save the (result) in categoryData 
   const [addNew, setAddNewCategory] = useState(false)
   const [editCategory, setEditCategory] = useState(null);
+  const [searchInput, setSearchInput] = useState(""); 
 
   
   const fetchData = async (data) => {  // Getall api
@@ -65,6 +66,11 @@ const ReadCategoey = () => {
     );
   };
 
+  // filter categoryData based on searchInput
+  const filteredcategoryData = categoryData.filter(category =>
+    category.name.toLowerCase().includes(searchInput.toLowerCase())
+  );
+
   return (
     <>
       {!addNew ? 
@@ -79,6 +85,8 @@ const ReadCategoey = () => {
                 type="text"
                 placeholder="Search..."
                 className="search-input"
+                value={searchInput}
+                onChange={(e) => setSearchInput(e.target.value)}
               />
               <span className="search-icon" ><IoIosSearch /></span>
             </div>
@@ -97,7 +105,7 @@ const ReadCategoey = () => {
               </tr>
             </thead>
             <tbody>
-              {categoryData.map((category) => (
+              {filteredcategoryData.map((category) => (
                 <tr key={category.id}>
                   <th scope="row">{category.id}</th>
                   <td>{category.name}</td>

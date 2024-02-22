@@ -11,10 +11,11 @@ import 'alertifyjs/build/css/alertify.css';
 const ReadProducts = () => {
 
   
-  const [addNew, setAddNewProducts] = useState(false)  // stat for rendering conditional based component
+  const [addNew, setAddNewProducts] = useState(false)  // state for rendering conditional based component
   const [productData, setProductData] = useState([]);  // state for storing api response
-  const [editProduct, setEditProduct] = useState();
-
+  const [editProduct, setEditProduct] = useState();    // state for storing edit product 
+  const [searchInput, setSearchInput] = useState("");  // state for search functionality
+  
   
   const fetchData = async (data) => {  // api calling for getall data in table
     const response = await ProductsApiUrls.getall(data);
@@ -68,6 +69,11 @@ const ReadProducts = () => {
     );
   };
  
+  // filter productData based on searchInput
+  const filteredproductData = productData.filter(product =>
+    product.productName.toLowerCase().includes(searchInput.toLowerCase())
+  );
+
   return (
     <>
       {!addNew ?                     
@@ -82,6 +88,8 @@ const ReadProducts = () => {
                 type="text"
                 placeholder="Search..."
                 className="search-input"
+                value={searchInput}
+                onChange= {(e)=> setSearchInput(e.target.value)}
               />
               <span className="search-icon" ><IoIosSearch /></span>
             </div>
@@ -102,7 +110,7 @@ const ReadProducts = () => {
               </tr>
             </thead>
             <tbody>
-              {productData.map((product) => (
+              {filteredproductData.map((product) => (
                 <tr key={product.id}>
                   <th scope="row">{product.id}</th>
                   <td>{product.category}</td>

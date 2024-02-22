@@ -18,7 +18,7 @@ const AddCategory = ({sendDataToParent, category}) => {
       setValue('description','');
       setValue('status','');
     }
-  })
+  }, [category, setValue])
  
   const onSubmit = async(data) => {
     try{
@@ -60,9 +60,9 @@ const AddCategory = ({sendDataToParent, category}) => {
               <input
                 {...register('name', { required: 'Category Name is required' })}
                 type="text"
-                className={`form-control ${errors.categoryName ? 'is-invalid' : ''}`}
+                className={`form-control ${errors.name ? 'is-invalid' : ''}`}
               />
-              {errors.categoryName && <div className="invalid-feedback">{errors.categoryName.message}</div>}
+              {errors.name && <div className="invalid-feedback">{errors.name.message}</div>}
             </div>
             <div className="form-group col-md-4">
               <label>Description</label>
@@ -77,8 +77,9 @@ const AddCategory = ({sendDataToParent, category}) => {
               <label>Status</label>
               <select
                 {...register('status', { required: 'Status is required' })}
-                className="status-hw form-control"
+                className={`status-hw form-control ${errors.status ? 'is-invalid' : ''}`}
               >
+                <option value="">Select Status</option>
                 <option value="active">Active</option>
                 <option value="inactive">Inactive</option>
               </select>
