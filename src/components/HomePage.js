@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import HomeDetails from './HomeDetails';
 import ReadCategory from './ReadCategoey';
 import ReadProducts from './ReadProducts';
@@ -8,13 +8,6 @@ import 'alertifyjs/build/css/alertify.css';
 import { useNavigate } from 'react-router-dom';
 
 const HomePage = () => {
-
-  const navigate = useNavigate();
-
-  // useEffect(() => {
-  //   // Redirect to the login page when HomePage component mounts
-  //   navigate('/login');
-  // }, [navigate]);
 
   const [loadView, setLoadView] = useState('Home');
 
@@ -31,7 +24,7 @@ const HomePage = () => {
     alertify.set('notifier', 'position', 'top-center');
     alertify.confirm('Confirmation', 'Are you sure you want to log out?',
       function () {
-        GotToLogin("/login");
+        GotToLogin("/");
       }
       , function () {
 

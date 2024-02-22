@@ -59,7 +59,7 @@ const ForgetPassPage = () => {
           <div className="col-md-2"></div>
         </div>
         <div className="row text-center">
-          <Link to="/login" className="backtologin-tc">Back to log in?</Link>
+          <Link to="/" className="backtologin-tc">Back to log in?</Link>
         </div>
       </div>
     </div>

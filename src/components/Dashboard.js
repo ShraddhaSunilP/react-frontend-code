@@ -10,15 +10,16 @@ import ReadProducts from './ReadProducts';
 import HomeDetails from './HomeDetails';
 import User from './User';
 
-
 const Dashboard = () => {
+  
+  // const Navigate = useNavigate();
 
 return (
     <BrowserRouter>
       <Routes>
-        <Route exact path="/" element={<HomePage/>}></Route>
+        <Route exact path="/" element={<LoginPage/>}></Route>
+        <Route exact path="/home" element={<HomePage/>}></Route>
         <Route exact path="/user" element={<User/>}></Route>
-        <Route exact path="/login" element={<LoginPage/>}></Route>
         <Route exact path="/forgotpass" element={<ForgotPassPage/>}></Route>
         <Route exact path="/addcategory" element={<AddCategory/>}></Route>
         <Route exact path="/readcategory" element={<ReadCategoey/>}></Route>

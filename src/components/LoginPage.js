@@ -16,7 +16,7 @@ const LoginPage = () => {
             console.log("Response Data:", result);
         
             if(result.status === 200){
-                goToHomePage("/");  // redirect to home page
+                goToHomePage("/home");  // redirect to home page
 
             } else {
               alertify.set('notifier', 'position', 'top-center');

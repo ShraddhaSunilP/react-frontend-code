@@ -63,7 +63,7 @@ function User() {
                         </div>
                         <div> 
                             <button type="submit" className="btn btn-primary Login-forgot-page">Submit</button>
-                            <span className="login-forgot"><Link to ="/login">Log In</Link></span>
+                            <span className="login-forgot"><Link to ="/">Log In</Link></span>
                         </div>
                     </form>
                 </div>

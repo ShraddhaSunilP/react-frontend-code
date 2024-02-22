@@ -4,7 +4,6 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import "./MyStyle.css";
 import Dashboard from './components/Dashboard';
 
-
 function App() {
   return (
     <div>
